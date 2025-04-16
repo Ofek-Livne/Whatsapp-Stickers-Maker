@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Whatsapp Sticker Maker</title>
+</head>
+<body>
+    <h1>Upload Images</h1>
+
+    {% if message %}
+    <p style="color: green;">{{ message | safe }}</p>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="pack_name">Pack Name:</label>
+            <input type="text" id="pack_name" name="pack_name">
+        </div>
+        <br>
+        <div>
+            <label for="author_name">Author Name:</label>
+            <input type="text" id="author_name" name="author_name">
+        </div>
+        <br>
+        <!-- TODO upload a tray image alone-->
+        <div>
+            <input type="checkbox" id="add_tray_toggle" name="add_tray_toggle">
+            <label for="add_tray_toggle">Add tray image to the pack</label>
+        </div>
+        <br>
+        <div>
+            <label for="files">Select up to {{ MAX_FILE_COUNT }} images:</label>
+            <input type="file" id="files" name="files[]" multiple accept="image/*"><br><br>
+            <input type="submit" value="Upload">
+        </div>
+    </form>
+
+    {% if uploaded_files %}
+    <h2>Uploaded Images:</h2>
+    <div>
+        {% for image_url in uploaded_files %}
+        <img src="{{ image_url }}" alt="Uploaded Image" width="150">
+        {% endfor %}
+    </div>
+    {% endif %}
+</body>
+</html>
