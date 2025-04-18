@@ -2,12 +2,13 @@
 <html>
 <head>
     <title>Whatsapp Sticker Maker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <h1>Upload Images</h1>
 
     {% if message %}
-    <p style="color: green;">{{ message | safe }}</p>
+    <p class=primary>{{ message | safe }}</p>
     {% endif %}
 
     <form method="POST" enctype="multipart/form-data">
