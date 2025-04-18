@@ -1,13 +1,16 @@
+from os import makedirs
+from pathlib import Path
+
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
-import os
+
+from constants import *
 
 app = Flask(__name__)
-UPLOAD_FOLDER = 'uploads'
+
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 MAX_FILE_COUNT = 30
 
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -19,11 +22,12 @@ def allowed_file(filename):
 def upload_images():
     message = ""
     uploaded_files = []
+    makedirs(UPLOAD_FOLDER, exist_ok=True)  # TODO if I dont delete the dir so move it from here
 
     if request.method == 'POST':
         pack_name = request.form['pack_name']
         author_name = request.form['author_name']
-        add_tray_toggle = 'on' if 'add_tray_toggle' in request.form else 'off'
+        add_tray_toggle = 'add_tray_toggle' in request.form
 
         if 'files[]' not in request.files:
             message = 'No file part'
@@ -34,10 +38,11 @@ def upload_images():
             message = f'You can upload a maximum of {MAX_FILE_COUNT} images.'
             return render_template('index.html', message=message, uploaded_files=uploaded_files)
 
+        upload_dir_path = Path(app.config['UPLOAD_FOLDER'])
         for file in files:
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
-                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                filepath = upload_dir_path / filename
                 file.save(filepath)
                 uploaded_files.append(url_for('uploaded_file', filename=filename))
             elif file and not allowed_file(file.filename):
