@@ -48,11 +48,9 @@ def upload_images():
             elif file and not allowed_file(file.filename):
                 message += (f'Invalid file type for {file.filename}.'
                             f' Allowed types are: {", ".join(ALLOWED_EXTENSIONS)}<br>')
-        print(pack_name, author_name, add_tray_toggle, uploaded_files)
-        if not message and uploaded_files:
-            message = 'Images uploaded successfully!'
-        elif not message:
-            message = 'No files were selected.'
+        print(pack_name, author_name, add_tray_toggle, uploaded_files)  # TODO delete
+        if not message:
+            message = 'Images uploaded successfully!' if uploaded_files else 'No files were selected.'
     return render_template('index.html', message=message, uploaded_files=uploaded_files)
 
 
