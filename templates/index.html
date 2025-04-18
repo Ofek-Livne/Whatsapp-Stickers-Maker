@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Upload Images</h1>
+    <h1>Whatsapp Sticker Maker</h1>
 
     {% if message %}
     <p class=primary>{{ message | safe }}</p>
@@ -29,7 +29,7 @@
         </div>
         <br>
         <div>
-            <label for="files">Select up to {{ MAX_FILE_COUNT }} images:</label>
+            <label for="files">Select up to {{ MAX_FILE_COUNT }} images:</label> <!-- TODO fix the MAX_FILE_COUNT bug and make it responsive to the checkbox-->
             <input type="file" id="files" name="files[]" multiple accept="image/*"><br><br>
             <input type="submit" value="Upload">
         </div>
