@@ -27,16 +27,16 @@ def upload_images():
     if request.method == 'POST':
         pack_name = request.form['pack_name']
         author_name = request.form['author_name']
-        add_tray_toggle = 'add_tray_toggle' in request.form
+        include_tray = 'add_tray_toggle' in request.form
 
         if 'files[]' not in request.files:
             message = 'No file part'
             return render_template('index.html', message=message, uploaded_files=uploaded_files)
 
         files = request.files.getlist('files[]')
-        if len(files) > MAX_FILE_COUNT:
-            message = f'You can upload a maximum of {MAX_FILE_COUNT} images.'
             return render_template('index.html', message=message, uploaded_files=uploaded_files)
+        if len(files) > MAX_FILE_COUNT - include_tray:
+            message = f'You only can create a sticker pack with a maximum of {MAX_FILE_COUNT} images.'
 
         upload_dir_path = Path(app.config['UPLOAD_FOLDER'])
         for file in files:

@@ -24,15 +24,20 @@
         <br>
         <!-- TODO upload a tray image alone-->
         <div>
-            <input type="checkbox" id="add_tray_toggle" name="add_tray_toggle">
+            <input type="checkbox" id="add_tray_toggle" name="add_tray_toggle" onclick="update_max_files()">
             <label for="add_tray_toggle">Add tray image to the pack</label>
         </div>
         <br>
         <div>
-            <label for="files">Select up to {{ MAX_FILE_COUNT }} images:</label> <!-- TODO fix the MAX_FILE_COUNT bug and make it responsive to the checkbox-->
+            <label id="max_files_label" for="files">Select up to {{ max_size }} images:</label>
             <input type="file" id="files" name="files[]" multiple accept="image/*"><br><br>
             <input type="submit" value="Upload">
         </div>
+
+        <script>
+            const originalMaxSize = {{ max_size }};
+        </script>
+        <script src="{{ url_for('static', filename='script.js') }}" defer></script>
     </form>
 
     {% if uploaded_files %}
