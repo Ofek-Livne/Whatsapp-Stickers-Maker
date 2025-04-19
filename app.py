@@ -31,12 +31,12 @@ def upload_images():
 
         if 'files[]' not in request.files:
             message = 'No file part'
-            return render_template('index.html', message=message, uploaded_files=uploaded_files)
+            return get_return_type(message, uploaded_files)
 
         files = request.files.getlist('files[]')
-            return render_template('index.html', message=message, uploaded_files=uploaded_files)
         if len(files) > MAX_FILE_COUNT - include_tray:
             message = f'You only can create a sticker pack with a maximum of {MAX_FILE_COUNT} images.'
+            return get_return_type(message, uploaded_files)
 
         upload_dir_path = Path(app.config['UPLOAD_FOLDER'])
         for file in files:
@@ -48,10 +48,15 @@ def upload_images():
             elif file and not allowed_file(file.filename):
                 message += (f'Invalid file type for {file.filename}.'
                             f' Allowed types are: {", ".join(ALLOWED_EXTENSIONS)}<br>')
-        print(pack_name, author_name, add_tray_toggle, uploaded_files)  # TODO delete
+        print(pack_name, author_name, include_tray, uploaded_files)  # TODO delete
         if not message:
             message = 'Images uploaded successfully!' if uploaded_files else 'No files were selected.'
-    return render_template('index.html', message=message, uploaded_files=uploaded_files)
+    return get_return_type(message, uploaded_files)
+
+
+def get_return_type(message, uploaded_files):
+    return render_template('index.html', message=message, uploaded_files=uploaded_files,
+                           max_size=MAX_FILE_COUNT)
 
 
 @app.route('/uploads/<filename>')
