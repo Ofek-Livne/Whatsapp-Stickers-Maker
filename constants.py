@@ -1,1 +1,2 @@
-UPLOAD_FOLDER = 'uploads'
+MAX_FILE_COUNT = 30
+UPLOAD_DIR_NAME = 'uploads'
