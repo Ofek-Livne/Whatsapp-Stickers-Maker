@@ -9,8 +9,7 @@ from sticker_pack_maker import make_sticker_pack
 
 app = Flask(__name__)
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'jfif'}  # TODO check gif
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR_NAME
 
