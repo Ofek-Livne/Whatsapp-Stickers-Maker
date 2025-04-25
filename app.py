@@ -1,5 +1,6 @@
 from os import makedirs
 from pathlib import Path
+from shutil import rmtree
 
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
@@ -22,6 +23,9 @@ def allowed_file(filename) -> bool:
 def upload_images():
     message = ""
     uploaded_files = []
+    upload_dir_path = Path(app.config['UPLOAD_FOLDER'])
+    if upload_dir_path.exists():
+        rmtree(UPLOAD_DIR_NAME)
     makedirs(UPLOAD_DIR_NAME, exist_ok=True)  # TODO if I dont delete the dir so move it from here
 
     if request.method == 'POST':
@@ -38,7 +42,6 @@ def upload_images():
             message = f'You only can create a sticker pack with a maximum of {MAX_FILE_COUNT} images.'
             return get_return_type(message, uploaded_files)
 
-        upload_dir_path = Path(app.config['UPLOAD_FOLDER'])
         for file in files:
             if file:
                 if allowed_file(file.filename):
