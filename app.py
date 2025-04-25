@@ -69,12 +69,7 @@ def get_return_type(message, uploaded_files):
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-
 # @app.route('/create_sticker_pack', methods=['POST'])
 # def create_sticker_pack():
 #     print('creating')
 #     return render_template('index.html', message=message, uploaded_files=uploaded_files)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
