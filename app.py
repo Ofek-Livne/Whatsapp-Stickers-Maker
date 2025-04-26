@@ -39,6 +39,7 @@ def upload_images():
 
         files = request.files.getlist('files[]')
         if len(files) > MAX_FILE_COUNT - include_tray:
+            # TODO just make more packs
             message = f'You only can create a sticker pack with a maximum of {MAX_FILE_COUNT} images.'
             return get_return_type(message, uploaded_files)
 

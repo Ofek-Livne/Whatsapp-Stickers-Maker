@@ -31,22 +31,14 @@
         <div>
             <label id="max_files_label" for="files">Select up to {{ max_size }} images:</label>
             <input type="file" id="files" name="files[]" multiple accept="image/*"><br><br>
-            <input type="submit" value="Upload">
-        </div>
 
+            <input type="submit" value="Create Sticker pack!">
+        </div>
+        <div id="image-preview" style="margin-top: 1em;"></div>
         <script>
             const originalMaxSize = {{ max_size }};
         </script>
         <script src="{{ url_for('static', filename='script.js') }}" defer></script>
     </form>
-
-    {% if uploaded_files %}
-    <h2>Uploaded Images:</h2>
-    <div>
-        {% for image_url in uploaded_files %}
-        <img src="{{ image_url }}" alt="Uploaded Image" width="150">
-        {% endfor %}
-    </div>
-    {% endif %}
 </body>
 </html>
