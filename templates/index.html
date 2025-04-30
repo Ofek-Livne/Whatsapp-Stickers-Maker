@@ -35,6 +35,9 @@
             <input type="submit" value="Create Sticker pack!">
         </div>
         <div id="image-preview" style="margin-top: 1em;"></div>
+        {% if download_url %}
+            <a href="{{ download_url }}" download>Download sticker pack</a>
+        {% endif %}
         <script>
             const originalMaxSize = {{ max_size }};
         </script>

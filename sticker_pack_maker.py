@@ -87,6 +87,7 @@ def zip_and_format_pack(pack_name: str = None):
     zip_file_path.rename(wastickers_file_type)
     print('Done! your sticker pack is at', zip_file_path)
     rmtree(TEMP_OUTPUT_DIR)
+    return wastickers_file_type
 
 
 def make_sticker_pack(title_name: str, author_name: str, include_tray: bool):
@@ -94,4 +95,4 @@ def make_sticker_pack(title_name: str, author_name: str, include_tray: bool):
     pack_title = verify_title_and_author(title_name, author_name)
     tray_path = check_for_tray_image()
     reformat_stickers(tray_path, include_tray)
-    zip_and_format_pack(pack_title)
+    return zip_and_format_pack(pack_title)

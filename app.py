@@ -26,7 +26,7 @@ def upload_images():
     upload_dir_path = Path(app.config['UPLOAD_FOLDER'])
     if upload_dir_path.exists():
         rmtree(UPLOAD_DIR_NAME)
-    makedirs(UPLOAD_DIR_NAME, exist_ok=True)  # TODO if I dont delete the dir so move it from here
+    makedirs(UPLOAD_DIR_NAME, exist_ok=True)
 
     if request.method == 'POST':
         pack_name = request.form['pack_name']
@@ -56,16 +56,17 @@ def upload_images():
         print(pack_name, author_name, include_tray, uploaded_files)  # TODO delete
         if not message:
             if uploaded_files:
-                make_sticker_pack(pack_name, author_name, include_tray)
-                message = 'Images uploaded successfully!'
+                download_url = make_sticker_pack(pack_name, author_name, include_tray)
+                message = 'Images uploaded successfully! Creating the pack!'
+                return get_return_type(message, uploaded_files, download_url)
             else:
                 message = 'No files were selected.'
     return get_return_type(message, uploaded_files)
 
 
-def get_return_type(message, uploaded_files):
+def get_return_type(message, uploaded_files, download_url=None):
     return render_template('index.html', message=message, uploaded_files=uploaded_files,
-                           max_size=MAX_FILE_COUNT)
+                           max_size=MAX_FILE_COUNT, download_url=download_url)
 
 
 @app.route('/uploads/<filename>')
