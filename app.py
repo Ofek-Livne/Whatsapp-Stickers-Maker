@@ -54,7 +54,6 @@ def upload_images():
                 else:
                     message += (f'Invalid file type for {file.filename}.'
                                 f' Allowed types are: {", ".join(ALLOWED_EXTENSIONS)}<br>')
-        print(pack_name, author_name, include_tray, uploaded_files)  # TODO delete
         if not message:
             if uploaded_files:
                 pack_file_name = make_sticker_pack(pack_name, author_name, include_tray)
@@ -77,8 +76,3 @@ def uploaded_file(filename):
 @app.route(f'/packs/<filename>')
 def download_pack(filename):
     return send_from_directory(app.config[PACKS_DIR_NAME], filename)
-
-# @app.route('/create_sticker_pack', methods=['POST'])
-# def create_sticker_pack():
-#     print('creating')
-#     return render_template('index.html', message=message, uploaded_files=uploaded_files)
