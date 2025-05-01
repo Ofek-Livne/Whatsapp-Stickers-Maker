@@ -14,7 +14,7 @@ STICKER_IMAGE_FORMAT = 'webp'
 
 UPLOAD_DIR = Path(UPLOAD_DIR_NAME)
 TEMP_OUTPUT_DIR = Path('output')
-PACKS_DIR = Path('packs')
+PACKS_DIR = Path(PACKS_DIR_NAME)
 
 # ADD_TRAY_TO_PACK = True
 
@@ -75,7 +75,7 @@ def reformat_stickers(tray_path: Optional[Path], include_tray: bool):
             break
 
 
-def zip_and_format_pack(pack_name: str = None):
+def zip_and_format_pack(pack_name: str = None) -> Path:
     Path.mkdir(PACKS_DIR, exist_ok=True)
     zip_file_path = PACKS_DIR / f'{pack_name}.zip'
     with ZipFile(zip_file_path, 'w') as zip_file:
@@ -90,9 +90,9 @@ def zip_and_format_pack(pack_name: str = None):
     return wastickers_file_type
 
 
-def make_sticker_pack(title_name: str, author_name: str, include_tray: bool):
+def make_sticker_pack(title_name: str, author_name: str, include_tray: bool) -> str:
     Path.mkdir(TEMP_OUTPUT_DIR, exist_ok=True)
     pack_title = verify_title_and_author(title_name, author_name)
     tray_path = check_for_tray_image()
     reformat_stickers(tray_path, include_tray)
-    return zip_and_format_pack(pack_title)
+    return zip_and_format_pack(pack_title).name

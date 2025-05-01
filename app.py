@@ -13,6 +13,7 @@ app = Flask(__name__)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'jfif'}  # TODO check gif
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR_NAME
+app.config[PACKS_DIR_NAME] = PACKS_DIR_NAME
 
 
 def allowed_file(filename) -> bool:
@@ -56,22 +57,26 @@ def upload_images():
         print(pack_name, author_name, include_tray, uploaded_files)  # TODO delete
         if not message:
             if uploaded_files:
-                download_url = make_sticker_pack(pack_name, author_name, include_tray)
+                pack_file_name = make_sticker_pack(pack_name, author_name, include_tray)
                 message = 'Images uploaded successfully! Creating the pack!'
-                return get_return_type(message, uploaded_files, download_url)
+                return get_return_type(message, uploaded_files, pack_file_name)
             else:
                 message = 'No files were selected.'
     return get_return_type(message, uploaded_files)
 
 
-def get_return_type(message, uploaded_files, download_url=None):
+def get_return_type(message, uploaded_files, pack_file_name=None):
     return render_template('index.html', message=message, uploaded_files=uploaded_files,
-                           max_size=MAX_FILE_COUNT, download_url=download_url)
+                           max_size=MAX_FILE_COUNT, pack_file_name=pack_file_name)
 
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route(f'/packs/<filename>')
+def download_pack(filename):
+    return send_from_directory(app.config[PACKS_DIR_NAME], filename)
 
 # @app.route('/create_sticker_pack', methods=['POST'])
 # def create_sticker_pack():
