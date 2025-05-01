@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'jfif'}  # TODO check gif
 
-app.config['UPLOAD_FOLDER'] = UPLOAD_DIR_NAME
+app.config[UPLOAD_DIR_NAME] = UPLOAD_DIR_NAME
 app.config[PACKS_DIR_NAME] = PACKS_DIR_NAME
 
 
@@ -24,7 +24,7 @@ def allowed_file(filename) -> bool:
 def upload_images():
     message = ""
     uploaded_files = []
-    upload_dir_path = Path(app.config['UPLOAD_FOLDER'])
+    upload_dir_path = Path(app.config[UPLOAD_DIR_NAME])
     if upload_dir_path.exists():
         rmtree(UPLOAD_DIR_NAME)
     makedirs(UPLOAD_DIR_NAME, exist_ok=True)
@@ -69,9 +69,10 @@ def get_return_type(message, uploaded_files, pack_file_name=None):
                            max_size=MAX_FILE_COUNT, pack_file_name=pack_file_name)
 
 
-@app.route('/uploads/<filename>')
+@app.route(f'/{UPLOAD_DIR_NAME}/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    return send_from_directory(app.config[UPLOAD_DIR_NAME], filename)
+
 
 @app.route(f'/packs/<filename>')
 def download_pack(filename):
