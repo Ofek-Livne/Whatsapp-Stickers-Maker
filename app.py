@@ -9,11 +9,10 @@ from constants import *
 from sticker_pack_maker import make_sticker_pack
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_DIR_NAME
+app.config['DOWNLOAD_FOLDER'] = PACKS_DIR_NAME
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'jfif'}  # TODO check gif
-
-app.config[UPLOAD_DIR_NAME] = UPLOAD_DIR_NAME
-app.config[PACKS_DIR_NAME] = PACKS_DIR_NAME
 
 
 def allowed_file(filename) -> bool:
@@ -71,9 +70,9 @@ def get_return_type(message, uploaded_files, pack_file_name=None):
 
 @app.route(f'/{UPLOAD_DIR_NAME}/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config[UPLOAD_DIR_NAME], filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
-@app.route(f'/packs/<filename>')
+@app.route(f'/{PACKS_DIR_NAME}/<filename>')
 def download_pack(filename):
-    return send_from_directory(app.config[PACKS_DIR_NAME], filename)
+    return send_from_directory(app.config['DOWNLOAD_FOLDER'], filename)
