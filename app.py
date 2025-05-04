@@ -2,7 +2,7 @@ from os import makedirs
 from pathlib import Path
 from shutil import rmtree
 
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 
 from constants import *
@@ -23,7 +23,7 @@ def allowed_file(filename) -> bool:
 def upload_images():
     message = ""
     uploaded_files = []
-    upload_dir_path = Path(app.config[UPLOAD_DIR_NAME])
+    upload_dir_path = Path(app.config['UPLOAD_FOLDER'])
     if upload_dir_path.exists():
         rmtree(UPLOAD_DIR_NAME)
     makedirs(UPLOAD_DIR_NAME, exist_ok=True)
