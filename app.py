@@ -33,6 +33,14 @@ def upload_images():
         author_name = request.form['author_name']
         include_tray = 'add_tray_toggle' in request.form
 
+        if tray := request.files.getlist('tray'):
+            tray = tray[0]
+            if allowed_file(tray.filename):
+                tray_name = f'tray.{tray.filename.split(".")[-1]}'
+                tray_path = upload_dir_path / tray_name
+                tray.save(tray_path)
+                uploaded_files.append(url_for('uploaded_file', filename=tray_name))
+
         if 'files[]' not in request.files:
             message = 'No file part'
             return get_return_type(message, uploaded_files)
@@ -46,6 +54,9 @@ def upload_images():
         for file in files:
             if file:
                 if allowed_file(file.filename):
+                    if tray.filename == file.filename:
+                        include_tray = True
+                        continue
                     filename = secure_filename(file.filename)
                     filepath = upload_dir_path / filename
                     file.save(filepath)
