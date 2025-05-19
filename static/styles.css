@@ -28,3 +28,7 @@ button {
 .primary {
     color : var(--primary-color)
 }
+
+a {
+  color: var(--primary-color);
+}
