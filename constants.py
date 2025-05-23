@@ -1,0 +1,3 @@
+MAX_FILE_COUNT = 30
+UPLOAD_DIR_NAME = 'uploads'
+PACKS_DIR_NAME = 'packs'
