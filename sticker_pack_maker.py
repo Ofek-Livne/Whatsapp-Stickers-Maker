@@ -1,9 +1,9 @@
 from PIL import Image
 from pathlib import Path
+from shutil import rmtree
 from typing import Optional
 from zipfile import ZipFile
 from datetime import datetime
-from shutil import copy, rmtree
 
 from constants import *
 
@@ -15,8 +15,6 @@ STICKER_IMAGE_FORMAT = 'webp'
 UPLOAD_DIR = Path(UPLOAD_DIR_NAME)
 TEMP_OUTPUT_DIR = Path('output')
 PACKS_DIR = Path(PACKS_DIR_NAME)
-
-# ADD_TRAY_TO_PACK = True
 
 
 def is_image(file_path):
